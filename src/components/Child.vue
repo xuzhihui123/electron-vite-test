@@ -29,7 +29,6 @@ export default defineComponent({
 
     // 设置标题
     window.electronAPI.setTitle('app title change before')
-
     //
     window.electronAPI.handleCounter((event, value) => {
       counter.value = counter.value + value

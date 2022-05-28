@@ -1,7 +1,9 @@
+/* eslint-disable dot-notation */
 // electron-main/index.ts
 
 import { app, BrowserWindow, ipcMain, dialog, Menu } from 'electron'
 import path from 'path'
+import logger from '../src/util/log'
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -43,10 +45,13 @@ const createWindow = () => {
   })
 
   if (app.isPackaged) {
+    logger.info(process.env['TEST_VARIABLE'] as string)
     win.loadFile(path.join(__dirname, '../index.html'))
   } else {
     // 🚧 Use ['ENV_NAME'] avoid vite:define plugin
-    const url = 'http://localhost:3000'
+    // 这边环境变量需要通过中扩号来获取,不通过中括号取不到，外设环境变量需要通过cross-env vite的.env.development嵌入的环境变量拿不到
+    // console.log(process.env['TEST_VARIABLE'])
+    const url = `http://${process.env['VITE_DEV_SERVER_HOST']}:${process.env['VITE_DEV_SERVER_PORT']}`
     win.loadURL(url)
   }
 }
