@@ -1,6 +1,7 @@
 <script lang="tsx">
 import { defineComponent, onMounted, ref } from 'vue'
 import { getImageUrl } from '@/util/util'
+import cloneDeep from 'lodash/cloneDeep'
 
 export default defineComponent({
   name: 'Child',
@@ -18,6 +19,7 @@ export default defineComponent({
     const resources = PIXI.loader.resources
     const Sprite = PIXI.Sprite
     const Rectangle = PIXI.Rectangle
+    const Container = PIXI.Container
     // const TextureCache  = PIXI.utils.TextureCache
 
     const app = new Application({
@@ -31,45 +33,47 @@ export default defineComponent({
     function setup () {
       // let texture = PIXI.utils.TextureCache["images/anySpriteImage.png"];  创建纹理
       // let sprite = new PIXI.Sprite(texture);
-      const texture = resources[logoPng].texture
-      const rectangle = new Rectangle(96, 64, 32, 32)
+      const texture1 = resources[logoPng].texture
+      const rectangle1 = new Rectangle(96, 64, 32, 32)
       // Tell the texture to use that rectangular section
-      texture.frame = rectangle
+      texture1.frame = rectangle1
+      // 创建精灵
+      const sprite1 = new Sprite(texture1)
+      sprite1.position.set(10, 10)
+
+      const texture2 = cloneDeep(texture1)
+      const rectangle2 = new Rectangle(0, 0, 32, 32)
+      // Tell the texture to use that rectangular section
+      texture2.frame = rectangle2
 
       // 创建精灵
-      const sprite = new Sprite(resources[logoPng].texture)
-      // sprite.texture = ..
-      sprite.x = 20
-      sprite.y = 20
-      sprite.vx = 0
-      sprite.vy = 0
-      // sprite.width = 100
-      // sprite.height=100
-      // sprite.scale.x = 0.2
-      // sprite.scale.y = 0.2
-      sprite.scale.set(1.5, 1.5)
-      // sprite.rotation = 0.7
-      // sprite.pivot.set(100, 50)
-      // sprite.anchor.x = 0.5;
-      // sprite.anchor.y = 0.5;
-      // sprite.anchor.set()
-      // sprite.scale.set(0.5, 0.5);
-      // sprite.position.set(x, y) 设置位置
+      const sprite2 = new Sprite(texture2)
+      sprite2.position.set(20, 20)
 
-      // console.log(app.stage)
+      // 创建分组
+      const spritesArr = new Container()
+      spritesArr.addChild(sprite1)
+      spritesArr.addChild(sprite2)
+      spritesArr.position.set(100, 100)
 
-      app.stage.addChild(sprite)
-      // app.stage.removeChild(sprite) 删除
-      // sprite.visible = false  隐藏
+      // 精灵的局部坐标
+      console.log(sprite1.x)
+      // 精灵的全局坐标 -》相对于舞台左上角位置
+      console.log(spritesArr.toGlobal(sprite1.position)) // 相当于console.log(sprite1.parent.toGlobal(sprite1.position)) 拿到父容器
+      // 如果不关心父亲容器 拿到精灵的全局坐标
+      console.log(sprite1.getGlobalPosition()) // {x: 110, y: 110}
 
-      app.ticker.add((delta:any) => gameLoop(delta, sprite))
-      function gameLoop (delta:any, sprite:any) {
-        sprite.vx = 1
-        sprite.vy = 1
-        // Move the cat 1 pixel
-        sprite.x += sprite.vx
-        sprite.y += sprite.vy
-      }
+      console.log(sprite2.toLocal(sprite2.position, sprite1).x) // 精灵2位于精灵1向右偏移10像素
+
+      // console.log(spritesArr.children)
+      // spritesArr.width = 100
+      // spritesArr.height = 100
+
+      // spritesArr.rotation = 0.7
+      // 将整个精灵分组 向右向下移动
+
+      app.stage.addChild(spritesArr)
+
     }
 
     onMounted(() => {

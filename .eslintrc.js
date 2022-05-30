@@ -34,6 +34,8 @@ module.exports = {
     'vue/multi-word-component-names': ['off', {
       ignores: []
     }],
-    'vue/no-multiple-template-root': ['off']
+    'vue/no-multiple-template-root': ['off'],
+    '@typescript-eslint/no-explicit-any': ['off'],
+    'padded-blocks': ['off']
   }
 }
