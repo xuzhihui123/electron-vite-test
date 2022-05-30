@@ -6,15 +6,4 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 
-  interface ImportMetaEnv {
-  readonly VITE_DEV_SERVER_HOST: string
-  readonly VITE_DEV_SERVER_PORT:string
-  // 更多环境变量...
-}
-
-// eslint-disable-next-line no-unused-vars
-interface ImportMeta {
-  readonly env: ImportMetaEnv
-}
-
 }

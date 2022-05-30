@@ -3,7 +3,6 @@
 
 import { app, BrowserWindow, ipcMain, dialog, Menu } from 'electron'
 import path from 'path'
-import logger from '../src/util/log'
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -45,7 +44,7 @@ const createWindow = () => {
   })
 
   if (app.isPackaged) {
-    logger.info(process.env['TEST_VARIABLE'] as string)
+    console.log(222, process.env['TEST_VARIABLE'])
     win.loadFile(path.join(__dirname, '../index.html'))
   } else {
     // 🚧 Use ['ENV_NAME'] avoid vite:define plugin
