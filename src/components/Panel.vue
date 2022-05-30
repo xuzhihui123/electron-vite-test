@@ -23,6 +23,8 @@ export default defineComponent({
     const resources = PIXI.loader.resources
     const Sprite = PIXI.Sprite
     const Rectangle = PIXI.Rectangle
+    const TextStyle = PIXI.TextStyle
+    const Text = PIXI.Text
     // const Container = PIXI.Container
     // const ParticleContainer = PIXI.particles.ParticleContainer
     // const TextureCache  = PIXI.utils.TextureCache
@@ -54,6 +56,14 @@ export default defineComponent({
       const sprite2 = new Sprite(texture2)
       sprite2.position.set(50, 10)
 
+      let textStyle = new TextStyle({
+        fontSize: 30,
+        fill: 'white'
+      })
+
+      let message = new Text('hello lancer', textStyle)
+      message.y = 100
+
       Dbtn.press = () => {
         sprite1.vx = 1
         sprite1.x += sprite1.vx
@@ -73,6 +83,7 @@ export default defineComponent({
 
       app.stage.addChild(sprite1)
       app.stage.addChild(sprite2)
+      app.stage.addChild(message)
 
     }
 
