@@ -1,11 +1,15 @@
 <script lang="tsx">
-import { defineComponent, onMounted, ref } from 'vue'
-import { getImageUrl } from '@/util/util'
+import { defineComponent, onMounted, ref, onUnmounted } from 'vue'
+import { getImageUrl, keyboard, hitTestRectangle } from '@/util/util'
 import cloneDeep from 'lodash/cloneDeep'
 
 export default defineComponent({
   name: 'Child',
   setup () {
+    const Dbtn = keyboard('d')
+    const Abtn = keyboard('a')
+    // const Abtn = keyboard('a')
+
     // eslint-disable-next-line no-undef
     const PIXI = window.PIXI
     // eslint-disable-next-line no-undef
@@ -19,7 +23,8 @@ export default defineComponent({
     const resources = PIXI.loader.resources
     const Sprite = PIXI.Sprite
     const Rectangle = PIXI.Rectangle
-    const Container = PIXI.Container
+    // const Container = PIXI.Container
+    // const ParticleContainer = PIXI.particles.ParticleContainer
     // const TextureCache  = PIXI.utils.TextureCache
 
     const app = new Application({
@@ -39,40 +44,35 @@ export default defineComponent({
       texture1.frame = rectangle1
       // 创建精灵
       const sprite1 = new Sprite(texture1)
+      sprite1.vx = 0
       sprite1.position.set(10, 10)
 
       const texture2 = cloneDeep(texture1)
       const rectangle2 = new Rectangle(0, 0, 32, 32)
       // Tell the texture to use that rectangular section
       texture2.frame = rectangle2
-
-      // 创建精灵
       const sprite2 = new Sprite(texture2)
-      sprite2.position.set(20, 20)
+      sprite2.position.set(50, 10)
 
-      // 创建分组
-      const spritesArr = new Container()
-      spritesArr.addChild(sprite1)
-      spritesArr.addChild(sprite2)
-      spritesArr.position.set(100, 100)
+      Dbtn.press = () => {
+        sprite1.vx = 1
+        sprite1.x += sprite1.vx
+        console.log(hitTestRectangle(sprite1, sprite2))
+      }
+      Dbtn.release = () => {
+        console.log('执行uop')
+      }
 
-      // 精灵的局部坐标
-      console.log(sprite1.x)
-      // 精灵的全局坐标 -》相对于舞台左上角位置
-      console.log(spritesArr.toGlobal(sprite1.position)) // 相当于console.log(sprite1.parent.toGlobal(sprite1.position)) 拿到父容器
-      // 如果不关心父亲容器 拿到精灵的全局坐标
-      console.log(sprite1.getGlobalPosition()) // {x: 110, y: 110}
+      Abtn.press = () => {
+        sprite1.vx = 1
+        sprite1.x -= sprite1.vx
+      }
+      Abtn.release = () => {
+        console.log('执行uop')
+      }
 
-      console.log(sprite2.toLocal(sprite2.position, sprite1).x) // 精灵2位于精灵1向右偏移10像素
-
-      // console.log(spritesArr.children)
-      // spritesArr.width = 100
-      // spritesArr.height = 100
-
-      // spritesArr.rotation = 0.7
-      // 将整个精灵分组 向右向下移动
-
-      app.stage.addChild(spritesArr)
+      app.stage.addChild(sprite1)
+      app.stage.addChild(sprite2)
 
     }
 
@@ -90,6 +90,10 @@ export default defineComponent({
       }).load(setup)
 
       wrapperRefObj.value?.appendChild(app.view)
+    })
+
+    onUnmounted(() => {
+      Dbtn.unsubscribe()
     })
     return () => {
       return (

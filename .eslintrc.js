@@ -36,6 +36,7 @@ module.exports = {
     }],
     'vue/no-multiple-template-root': ['off'],
     '@typescript-eslint/no-explicit-any': ['off'],
-    'padded-blocks': ['off']
+    'padded-blocks': ['off'],
+    'prefer-const': ['off']
   }
 }
