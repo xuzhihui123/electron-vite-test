@@ -1,7 +1,7 @@
 /* eslint-disable dot-notation */
 // electron-main/index.ts
 
-import { app, BrowserWindow, ipcMain, dialog, Menu } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 import path from 'path'
 
 const createWindow = () => {
@@ -13,23 +13,23 @@ const createWindow = () => {
     }
   })
 
-  const menu = Menu.buildFromTemplate([
-    {
-      label: app.name,
-      submenu: [
-        {
-          click: () => win.webContents.send('update-counter', 1),
-          label: 'Increment'
-        },
-        {
-          click: () => win.webContents.send('update-counter', -1),
-          label: 'Decrement'
-        }
-      ]
-    }
+  // const menu = Menu.buildFromTemplate([
+  //   {
+  //     label: app.name,
+  //     submenu: [
+  //       {
+  //         click: () => win.webContents.send('update-counter', 1),
+  //         label: 'Increment'
+  //       },
+  //       {
+  //         click: () => win.webContents.send('update-counter', -1),
+  //         label: 'Decrement'
+  //       }
+  //     ]
+  //   }
 
-  ])
-  Menu.setApplicationMenu(menu)
+  // ])
+  // Menu.setApplicationMenu(menu)
   win.webContents.openDevTools()
 
   ipcMain.on('counter-value', (_event, value) => {

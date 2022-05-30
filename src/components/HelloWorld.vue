@@ -1,27 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import Child from './Child.vue'
+import Panel from './Panel.vue'
 
-defineProps<{ msg: string }>()
-
-const count = ref(0)
 </script>
 
 <template>
-  <h1>{{ msg }}</h1>
-
   <Child />
 
-  <button
-    type="button"
-    @click="count++"
-  >
-    count is: {{ count }}
-  </button>
-  <p>
-    Edit
-    <code>components/HelloWorld.vue</code> to test hot module replacement.
-  </p>
+  <p>------</p>
+
+  <Panel />
 </template>
 
 <style scoped>

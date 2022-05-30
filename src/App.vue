@@ -9,7 +9,7 @@ import HelloWorld from '@/components/HelloWorld.vue'
     alt="Vue logo"
     src="./assets/logo.png"
   >
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <HelloWorld />
 </template>
 
 <style>
@@ -20,5 +20,9 @@ import HelloWorld from '@/components/HelloWorld.vue'
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+*{
+  margin: 0;
+  padding: 0;
 }
 </style>

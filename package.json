@@ -7,7 +7,7 @@
     "dev": "cross-env TEST_VARIABLE=222 vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "electron:build": "rimraf dist && rimraf release && cross-env TEST_VARIABLE=222  vite build && electron-builder"
+    "e:build": "rimraf dist && rimraf release && cross-env TEST_VARIABLE=222  vite build && electron-builder"
   },
   "dependencies": {
     "pinia": "^2.0.14",
