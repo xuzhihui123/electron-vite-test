@@ -30,7 +30,7 @@ const createWindow = () => {
 
   // ])
   // Menu.setApplicationMenu(menu)
-  win.webContents.openDevTools()
+  process.env['VITE_DEV_SERVER_HOST'] && win.webContents.openDevTools()
 
   ipcMain.on('counter-value', (_event, value) => {
     console.log('主进程接受', value) // will print value to Node console

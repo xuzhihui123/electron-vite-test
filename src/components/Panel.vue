@@ -48,6 +48,14 @@ export default defineComponent({
       const sprite1 = new Sprite(texture1)
       sprite1.vx = 0
       sprite1.position.set(10, 10)
+      sprite1.alpha = 0.5
+      sprite1.interactive = true
+      sprite1.cursor = 'pointer'
+      // sprite1.buttonMode = true
+
+      sprite1.on('click', () => {
+        console.log('sprite1 click')
+      })
 
       const texture2 = cloneDeep(texture1)
       const rectangle2 = new Rectangle(0, 0, 32, 32)
