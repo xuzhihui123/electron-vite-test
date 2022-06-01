@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import Child from './Child.vue'
-import Panel from './Panel.vue'
-
+// import Child from './Child.vue'
+// import Panel from './Panel.vue'
+import os from 'os'
+import CanvasPanel from './CanvasPanel.vue'
+console.log(os)
 </script>
 
 <template>
-  <Child />
+  <!-- <Child /> -->
 
   <p>------</p>
 
-  <Panel />
+  <!-- <Panel /> -->
+
+  <CanvasPanel />
 </template>
 
 <style scoped>

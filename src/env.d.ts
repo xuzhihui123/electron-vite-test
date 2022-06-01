@@ -8,4 +8,17 @@ declare module '*.vue' {
 
 }
 
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly VITE_TEST_VARIABLE: string
+  // 更多环境变量...
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}
+
 declare module 'lodash/cloneDeep'
+
+declare const customConfig:any

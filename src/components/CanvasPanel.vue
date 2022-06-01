@@ -2,6 +2,7 @@
 import { defineComponent, onMounted, ref, onUnmounted } from 'vue'
 import { getImageUrl, keyboard, hitTestRectangle } from '@/util/util'
 import cloneDeep from 'lodash/cloneDeep'
+import { Application, Sprite, Rectangle, TextStyle, Text } from 'pixi.js'
 
 export default defineComponent({
   name: 'Child',
@@ -10,21 +11,11 @@ export default defineComponent({
     const Abtn = keyboard('a')
     // const Abtn = keyboard('a')
 
-    // eslint-disable-next-line no-undef
-    const PIXI = window.PIXI
-    // eslint-disable-next-line no-undef
     const wrapperRefObj = ref<null | HTMLElement>(null)
 
     const logoPng = getImageUrl('sprite')
 
     // eslint-disable-next-line no-undef
-    const Application = PIXI.Application
-    const loader = PIXI.loader
-    const resources = PIXI.loader.resources
-    const Sprite = PIXI.Sprite
-    const Rectangle = PIXI.Rectangle
-    const TextStyle = PIXI.TextStyle
-    const Text = PIXI.Text
     // const Container = PIXI.Container
     // const ParticleContainer = PIXI.particles.ParticleContainer
     // const TextureCache  = PIXI.utils.TextureCache
@@ -36,17 +27,18 @@ export default defineComponent({
       transparent: false, // default: false 透明度
       resolution: 1 // default: 1 分辨率
     })
+    const resources = app.loader.resources
+    const loader = app.loader
 
     function setup () {
       // let texture = PIXI.utils.TextureCache["images/anySpriteImage.png"];  创建纹理
       // let sprite = new PIXI.Sprite(texture);
-      const texture1 = resources[logoPng].texture
+      let texture1 = resources[logoPng].texture
       const rectangle1 = new Rectangle(96, 64, 32, 32)
       // Tell the texture to use that rectangular section
-      texture1.frame = rectangle1
+      texture1!.frame = rectangle1
       // 创建精灵
       const sprite1 = new Sprite(texture1)
-      sprite1.vx = 0
       sprite1.position.set(10, 10)
       sprite1.alpha = 0.5
       sprite1.interactive = true
@@ -73,8 +65,7 @@ export default defineComponent({
       message.y = 100
 
       Dbtn.press = () => {
-        sprite1.vx = 1
-        sprite1.x += sprite1.vx
+        sprite1.x += 1
         console.log(hitTestRectangle(sprite1, sprite2))
       }
       Dbtn.release = () => {
@@ -82,8 +73,7 @@ export default defineComponent({
       }
 
       Abtn.press = () => {
-        sprite1.vx = 1
-        sprite1.x -= sprite1.vx
+        sprite1.x -= 1
       }
       Abtn.release = () => {
         console.log('执行uop')
@@ -97,16 +87,10 @@ export default defineComponent({
 
     onMounted(() => {
       app.renderer.backgroundColor = 0xdc143c
-      app.renderer.autoResize = true
-      app.renderer.resize(wrapperRefObj.value?.offsetWidth, wrapperRefObj.value?.offsetHeight) // 重新设置宽高
+      // app.renderer.autoResize = true
+      app.renderer.resize(((wrapperRefObj.value) as HTMLElement).offsetWidth, ((wrapperRefObj.value) as HTMLElement).offsetHeight) // 重新设置宽高
 
-      loader.add(logoPng).on('progress', (load:any, resource:any) => {
-        // Display the file `url` currently being loaded
-        console.log('loading: ' + resource.url)
-
-        // Display the percentage of files currently loaded
-        console.log('progress: ' + load.progress + '%')
-      }).load(setup)
+      loader.add(logoPng).load(setup)
 
       wrapperRefObj.value?.appendChild(app.view)
     })
@@ -125,7 +109,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/sass/format.scss';
  .wrapper{
   width: 100%;

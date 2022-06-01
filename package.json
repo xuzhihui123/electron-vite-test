@@ -4,14 +4,15 @@
   "version": "0.0.0",
   "main": "dist/electron-main/index.js",
   "scripts": {
-    "dev": "cross-env TEST_VARIABLE=222 vite",
+    "dev": "cross-env TEST_VARIABLE=test_valiable vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "e:build": "rimraf dist && rimraf release && cross-env TEST_VARIABLE=222  vite build && electron-builder"
+    "e:build": "rimraf dist && rimraf release && cross-env  TEST_VARIABLE=test_valiable  vite build && electron-builder"
   },
   "dependencies": {
     "lodash": "^4.17.21",
     "pinia": "^2.0.14",
+    "pixi.js": "^6.2.0",
     "vue": "^3.2.25"
   },
   "devDependencies": {

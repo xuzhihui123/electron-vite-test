@@ -21,7 +21,7 @@ function keyboard (value:string):IKEY {
   key.press = undefined
   key.release = undefined
   // The `downHandler`
-  key.downHandler = (event:any) => {
+  key.downHandler = function (event:any) {
     if (event.key === key.value) {
       if (key.isUp && key.press) key.press()
       key.isDown = true
@@ -31,7 +31,7 @@ function keyboard (value:string):IKEY {
   }
 
   // The `upHandler`
-  key.upHandler = (event:any) => {
+  key.upHandler = function (event:any) {
     if (event.key === key.value) {
       if (key.isDown && key.release) key.release()
       key.isDown = false

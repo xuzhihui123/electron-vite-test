@@ -8,6 +8,8 @@ const logoPng = getImageUrl('logo')
 // console.log(import.meta.env.DEV)
 // console.log(import.meta.env.VITA_PARAMS)
 // console.log(import.meta.env.VITE_DEV_SERVER_HOST)
+console.log(import.meta.env)
+console.log(process.env.TEST_VARIABLE)
 
 export default defineComponent({
   name: 'Child',

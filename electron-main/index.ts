@@ -7,11 +7,14 @@ import path from 'path'
 const createWindow = () => {
   const win = new BrowserWindow({
     webPreferences: {
-      contextIsolation: true, // 启用才能使用contextBridge应用编程接口
-      nodeIntegration: true,
+      nodeIntegration: true, //
+      contextIsolation: false, // 改为false才能引入pixi.js 至于为什么暂时改为false
       preload: path.join(__dirname, '../electron-preload/index.js')
     }
   })
+
+  // 窗口最大化
+  win.maximize()
 
   // const menu = Menu.buildFromTemplate([
   //   {
@@ -30,7 +33,7 @@ const createWindow = () => {
 
   // ])
   // Menu.setApplicationMenu(menu)
-  process.env['VITE_DEV_SERVER_HOST'] && win.webContents.openDevTools()
+  win.webContents.openDevTools()
 
   ipcMain.on('counter-value', (_event, value) => {
     console.log('主进程接受', value) // will print value to Node console
@@ -44,11 +47,18 @@ const createWindow = () => {
   })
 
   if (app.isPackaged) {
-    console.log(222, process.env['TEST_VARIABLE'])
+    // eslint-disable-next-line no-undef
+    console.log(customConfig.env)
+    console.log('process.env', process.env)
+    console.log(import.meta.env)
+    // console.log(222, process.env['TEST_VARIABLE']) 生产环境拿不到
     win.loadFile(path.join(__dirname, '../index.html'))
   } else {
+    // eslint-disable-next-line no-undef
+    console.log(customConfig.env)
+    console.log(import.meta.env)
     // 🚧 Use ['ENV_NAME'] avoid vite:define plugin
-    // 这边环境变量需要通过中扩号来获取,不通过中括号取不到，外设环境变量需要通过cross-env vite的.env.development嵌入的环境变量拿不到
+    // 这边开发环境变量需要通过中扩号来获取,不通过中括号取不到，外设环境变量需要通过cross-env
     // console.log(process.env['TEST_VARIABLE'])
     const url = `http://${process.env['VITE_DEV_SERVER_HOST']}:${process.env['VITE_DEV_SERVER_PORT']}`
     win.loadURL(url)
