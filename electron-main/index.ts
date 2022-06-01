@@ -7,7 +7,7 @@ import path from 'path'
 const createWindow = () => {
   const win = new BrowserWindow({
     webPreferences: {
-      nodeIntegration: true, //
+      nodeIntegration: true, // 渲染进程中调用Node.js
       contextIsolation: false, // 改为false才能引入pixi.js 至于为什么暂时改为false
       preload: path.join(__dirname, '../electron-preload/index.js')
     }

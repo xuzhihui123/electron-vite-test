@@ -101,7 +101,6 @@ export default defineComponent({
     return () => {
       return (
         <div class="wrapper" ref={wrapperRefObj}>
-            panel
         </div>
       )
     }

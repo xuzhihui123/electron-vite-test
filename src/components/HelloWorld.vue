@@ -3,15 +3,27 @@
 // import Panel from './Panel.vue'
 import os from 'os'
 import CanvasPanel from './CanvasPanel.vue'
-console.log(os)
+import Test from './Test.vue'
+let platform = os.platform
 </script>
 
 <template>
   <!-- <Child /> -->
+  <p>
+    platform
+    {{ platform }}
+  </p>
 
   <p>------</p>
 
   <!-- <Panel /> -->
+  <Test>
+    <template>
+      <div>
+        slots
+      </div>
+    </template>
+  </Test>
 
   <CanvasPanel />
 </template>
